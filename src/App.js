@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Analytics } from "@vercel/analytics/react";
+import ReactGA from 'react-ga';
 import Preloader from "../src/components/Pre";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home/Home";
@@ -22,12 +22,27 @@ function App() {
   const [load, upadateLoad] = useState(true);
 
   useEffect(() => {
+    // Initialize Google Analytics
+    const gaId = process.env.REACT_APP_GA_ID;
+    if (gaId) {
+      ReactGA.initialize(gaId);
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }
+    
     const timer = setTimeout(() => {
       upadateLoad(false);
     }, 1200);
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Track page views on route changes
+  useEffect(() => {
+    const gaId = process.env.REACT_APP_GA_ID;
+    if (gaId) {
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }
+  }, [window.location.pathname]);
 
   return (
     <Router>
@@ -44,7 +59,6 @@ function App() {
         </Routes>
         <Footer />
       </div>
-      <Analytics />
     </Router>
   );
 }
