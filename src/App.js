@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import Preloader from "../src/components/Pre";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home/Home";
@@ -43,6 +44,7 @@ function App() {
         </Routes>
         <Footer />
       </div>
+      <Analytics />
     </Router>
   );
 }
