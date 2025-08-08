@@ -33,10 +33,17 @@ function Home2() {
     setSubmitStatus(null);
 
     // EmailJS configuration
-    // You'll need to replace these with your actual EmailJS credentials
-    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_7x21dxm';
-    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_kfm1398';
-    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'St0KKBQ3wAZGTk3JS';
+    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+
+    // Check if environment variables are set
+    if (!serviceId || !templateId || !publicKey) {
+      console.error('EmailJS environment variables are not configured');
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+      return;
+    }
 
     emailjs.sendForm(serviceId, templateId, formRef.current, publicKey)
       .then((result) => {
